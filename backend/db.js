@@ -1,17 +1,24 @@
 const mongoose = require('mongoose')
 
-// async function dbconnect(){
-// // database connection
-// mongoose.connect("mongodb+srv://binishfarhan89:password@cluster0.vzdef1c.mongodb.net/mern_todo")
-// }
+const MONGO_URI = process.env.MONGO_URI;
+// console.log("🚀 ~ MONGO_URI:", MONGO_URI)
 
-// module.exports = dbconnect
+if (!MONGO_URI) {
+  throw new Error("Please define the MONGO_URI environment variable.");
+}
 
-async function dbconnect() {
-    // database connection
-    mongoose
-    .connect('mongodb+srv://binishfarhan89:vamp1989@cluster0.vzdef1c.mongodb.net/mern_todo')
-    .then(() => console.log("Database Connected"))
-    .catch((err) => console.log(err))
-    }
-module.exports = dbconnect
+async function connectDB() {
+  if (mongoose.connection.readyState >= 1) {
+    console.log("Already connected to MongoDB");
+    return;
+  }
+
+  try {
+    await mongoose.connect(MONGO_URI);
+    console.log("Connected to MongoDB");
+  } catch (error) {
+    console.error("MongoDB Connection Error:", error);
+  }
+};
+
+module.exports = connectDB

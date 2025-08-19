@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -5,8 +6,8 @@ const cors = require('cors')
 const todoRouter = require('./routes/todos.js')
 const dbconnect = require('./db')
 
-
-require('dotenv').config({ path: '.env' })
+// const mongo = process.env.MONGO_URI
+// console.log("🚀 ~ mongo:", mongo)
 
 app.use(express.json())
 app.use(cors())
